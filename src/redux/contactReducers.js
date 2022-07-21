@@ -11,14 +11,8 @@ const contactList = [
 
 const initialValue = () => JSON.parse(localStorage.getItem('contacts')) ?? contactList;
 
-export const items = createReducer(initialValue(), {
-  [addContact]: (state, { payload }) => {
-    if (state.find(contact => contact.name === payload.name)) {
-      alert(`${payload.name} is already in contacts`);
-      return;
-    }
-    return [...state, payload];
-  },
+export const items = createReducer(initialValue, {
+  [addContact]: (state, { payload }) => [...state, payload],
   [deleteContact]: (state, { payload }) => state.filter(({ id }) => id !== payload),
 });
 
