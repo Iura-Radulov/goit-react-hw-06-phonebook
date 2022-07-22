@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getVisibleNames } from 'redux/contactSelectors';
 import s from './ContactList.module.css';
-import { deleteContact } from 'redux/contactActions';
+import { deleteContact } from 'redux/contactSlice';
 
 const ContactList = () => {
   const visibleNames = useSelector(getVisibleNames);

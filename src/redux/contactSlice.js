@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 
 const contactList = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -11,24 +12,25 @@ const initialValue = () => JSON.parse(localStorage.getItem('contacts')) ?? conta
 
 const contactSlice = createSlice({
   name: 'contact',
-  initialState: { value: initialValue },
+  initialState: initialValue,
   reducers: {
-    addContact(state, { payload }) {
-      return [...state, payload];
+    addContact: {
+      reducer: (state, { payload }) => {
+        return [...state, payload];
+      },
+      prepare: (name, number) => ({
+        payload: { id: nanoid(), name, number },
+      }),
     },
-    deleteContact(state, { payload }) {
-      state.filter(({ id }) => id !== payload);
-    },
+    deleteContact: (state, action) => state.filter(({ id }) => id !== action.payload),
   },
 });
 
 const filterSlice = createSlice({
   name: 'filter',
-  initialState: { value: '' },
+  initialState: '',
   reducers: {
-    changeFilter({ payload }) {
-      return payload;
-    },
+    changeFilter: (_, action) => action.payload,
   },
 });
 
