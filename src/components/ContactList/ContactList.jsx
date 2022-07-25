@@ -1,25 +1,30 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getVisibleNames } from 'redux/contactSelectors';
+import { useSelector } from 'react-redux';
+import { getFilter } from 'redux/contactSelectors';
+
+import { useFetchContactsQuery } from 'redux/contactApiSlice';
+import ContactItem from 'components/ContactItem';
 import s from './ContactList.module.css';
-import { deleteContact } from 'redux/contactSlice';
+import { Oval } from 'react-loader-spinner';
 
 const ContactList = () => {
-  const visibleNames = useSelector(getVisibleNames);
-  const dispatch = useDispatch();
+  const { data: contacts, isLoading } = useFetchContactsQuery();
+
+  const filter = useSelector(getFilter);
+  const normalizedFilter = filter.toLowerCase();
+  const visibleNames =
+    contacts && contacts.filter(({ name }) => name.toLowerCase().includes(normalizedFilter));
 
   return (
     <div>
-      {visibleNames.map(({ id, number, name }) => {
-        return (
-          <li key={id} className={s.item}>
-            {name}: {number}
-            <button className={s.deleteBtn} onClick={() => dispatch(deleteContact(id))}>
-              Delete
-            </button>
-          </li>
-        );
-      })}
+      {visibleNames && (
+        <ul className={s.list}>
+          {visibleNames.map(({ id, phone, name }) => {
+            return <ContactItem key={id} name={name} phone={phone} id={id} />;
+          })}
+        </ul>
+      )}
+      {isLoading && <Oval width={80} height={80} />}
     </div>
   );
 };

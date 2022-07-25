@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactSlice';
-import { getContacts } from 'redux/contactSelectors';
-import { useSelector } from 'react-redux';
+import { useFetchContactsQuery, useAddContactMutation } from 'redux/contactApiSlice';
 import s from './ContactForm.module.css';
+import toast, { Toaster } from 'react-hot-toast';
+import { Oval } from 'react-loader-spinner';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const { data: contacts } = useFetchContactsQuery();
+  const [addContact, { isLoading }] = useAddContactMutation();
 
   const resetValue = () => {
     setName('');
@@ -20,11 +19,12 @@ const ContactForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     if (contacts.find(contact => contact.name === name)) {
-      alert(`${name} is already in contacts`);
+      toast.error(`${name} is already in contacts`);
       resetValue();
       return;
     }
-    dispatch(addContact(name, number));
+    addContact(name, number);
+    toast.success('Contact created with success');
     resetValue();
   };
 
@@ -56,9 +56,11 @@ const ContactForm = () => {
           required
         />
       </label>
-      <button className={s.button} type="submit">
-        Add contact
+      <button className={s.button} disabled={isLoading} type="submit">
+        <span>{isLoading && <Oval width={15} height={15} />}</span>
+        <span className={s.buttonLabel}>Add contact</span>
       </button>
+      <Toaster />
     </form>
   );
 };

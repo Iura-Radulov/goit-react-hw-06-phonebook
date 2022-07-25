@@ -13,7 +13,10 @@
 }
 
 .button {
-  width: 130px;
+  display: flex;
+  align-items: center;
+  width: 140px;
+  height: 30px;
   margin-top: 10px;
   cursor: pointer;
 }
@@ -21,4 +24,7 @@
   background-color: cadetblue;
   color: azure;
   outline: none;
+}
+.buttonLabel {
+  margin-left: 10px;
 }
