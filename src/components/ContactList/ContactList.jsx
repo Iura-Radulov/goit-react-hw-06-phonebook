@@ -19,9 +19,9 @@ const ContactList = () => {
     <div>
       {visibleNames && (
         <ul className={s.list}>
-          {visibleNames.map(({ id, phone, name }) => {
-            return <ContactItem key={id} name={name} phone={phone} id={id} />;
-          })}
+          {visibleNames.map(({ id, phone, name }) => (
+            <ContactItem key={id} name={name} phone={phone} id={id} />
+          ))}
         </ul>
       )}
       {isLoading && <Oval width={80} height={80} />}

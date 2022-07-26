@@ -1,4 +1,5 @@
 import { useDeleteContactMutation } from 'redux/contactApiSlice';
+import PropTypes from 'prop-types';
 import s from './ContactItem.module.css';
 import { Oval } from 'react-loader-spinner';
 
@@ -14,6 +15,12 @@ const ContactItem = ({ name, phone, id }) => {
       </button>
     </li>
   );
+};
+
+ContactItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default ContactItem;
