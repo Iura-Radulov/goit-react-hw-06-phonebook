@@ -10,6 +10,9 @@
   font-size: 17px;
   box-shadow: 0 4px 12px 0 rgb(0 23 46 / 5%);
 }
+.item:hover {
+  box-shadow: 0 10px 16px 0 rgb(191 206 217 / 45%);
+}
 
 .deleteBtn {
   display: flex;
